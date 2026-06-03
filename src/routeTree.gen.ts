@@ -9,38 +9,261 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as HealthRouteImport } from './routes/health'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppWebhooksRouteImport } from './routes/_app.webhooks'
+import { Route as AppUsageRouteImport } from './routes/_app.usage'
+import { Route as AppSuppressionsRouteImport } from './routes/_app.suppressions'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppSendEmailRouteImport } from './routes/_app.send-email'
+import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
+import { Route as AppDomainsRouteImport } from './routes/_app.domains'
+import { Route as AppDocsRouteImport } from './routes/_app.docs'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppMessagesIndexRouteImport } from './routes/_app.messages.index'
+import { Route as AppMessagesMessageIdRouteImport } from './routes/_app.messages.$messageId'
+import { Route as AppAdminApiKeysRouteImport } from './routes/_app.admin.api-keys'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthRoute = HealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppWebhooksRoute = AppWebhooksRouteImport.update({
+  id: '/webhooks',
+  path: '/webhooks',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppUsageRoute = AppUsageRouteImport.update({
+  id: '/usage',
+  path: '/usage',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSuppressionsRoute = AppSuppressionsRouteImport.update({
+  id: '/suppressions',
+  path: '/suppressions',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSendEmailRoute = AppSendEmailRouteImport.update({
+  id: '/send-email',
+  path: '/send-email',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOnboardingRoute = AppOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDomainsRoute = AppDomainsRouteImport.update({
+  id: '/domains',
+  path: '/domains',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDocsRoute = AppDocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMessagesIndexRoute = AppMessagesIndexRouteImport.update({
+  id: '/messages/',
+  path: '/messages/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMessagesMessageIdRoute = AppMessagesMessageIdRouteImport.update({
+  id: '/messages/$messageId',
+  path: '/messages/$messageId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminApiKeysRoute = AppAdminApiKeysRouteImport.update({
+  id: '/admin/api-keys',
+  path: '/admin/api-keys',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/health': typeof HealthRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/docs': typeof AppDocsRoute
+  '/domains': typeof AppDomainsRoute
+  '/onboarding': typeof AppOnboardingRoute
+  '/send-email': typeof AppSendEmailRoute
+  '/settings': typeof AppSettingsRoute
+  '/suppressions': typeof AppSuppressionsRoute
+  '/usage': typeof AppUsageRoute
+  '/webhooks': typeof AppWebhooksRoute
+  '/admin/api-keys': typeof AppAdminApiKeysRoute
+  '/messages/$messageId': typeof AppMessagesMessageIdRoute
+  '/messages/': typeof AppMessagesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/health': typeof HealthRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/docs': typeof AppDocsRoute
+  '/domains': typeof AppDomainsRoute
+  '/onboarding': typeof AppOnboardingRoute
+  '/send-email': typeof AppSendEmailRoute
+  '/settings': typeof AppSettingsRoute
+  '/suppressions': typeof AppSuppressionsRoute
+  '/usage': typeof AppUsageRoute
+  '/webhooks': typeof AppWebhooksRoute
+  '/admin/api-keys': typeof AppAdminApiKeysRoute
+  '/messages/$messageId': typeof AppMessagesMessageIdRoute
+  '/messages': typeof AppMessagesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/health': typeof HealthRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/docs': typeof AppDocsRoute
+  '/_app/domains': typeof AppDomainsRoute
+  '/_app/onboarding': typeof AppOnboardingRoute
+  '/_app/send-email': typeof AppSendEmailRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/suppressions': typeof AppSuppressionsRoute
+  '/_app/usage': typeof AppUsageRoute
+  '/_app/webhooks': typeof AppWebhooksRoute
+  '/_app/admin/api-keys': typeof AppAdminApiKeysRoute
+  '/_app/messages/$messageId': typeof AppMessagesMessageIdRoute
+  '/_app/messages/': typeof AppMessagesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/health'
+    | '/login'
+    | '/signup'
+    | '/dashboard'
+    | '/docs'
+    | '/domains'
+    | '/onboarding'
+    | '/send-email'
+    | '/settings'
+    | '/suppressions'
+    | '/usage'
+    | '/webhooks'
+    | '/admin/api-keys'
+    | '/messages/$messageId'
+    | '/messages/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/health'
+    | '/login'
+    | '/signup'
+    | '/dashboard'
+    | '/docs'
+    | '/domains'
+    | '/onboarding'
+    | '/send-email'
+    | '/settings'
+    | '/suppressions'
+    | '/usage'
+    | '/webhooks'
+    | '/admin/api-keys'
+    | '/messages/$messageId'
+    | '/messages'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/health'
+    | '/login'
+    | '/signup'
+    | '/_app/dashboard'
+    | '/_app/docs'
+    | '/_app/domains'
+    | '/_app/onboarding'
+    | '/_app/send-email'
+    | '/_app/settings'
+    | '/_app/suppressions'
+    | '/_app/usage'
+    | '/_app/webhooks'
+    | '/_app/admin/api-keys'
+    | '/_app/messages/$messageId'
+    | '/_app/messages/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  HealthRoute: typeof HealthRoute
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health': {
+      id: '/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof HealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +271,132 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/webhooks': {
+      id: '/_app/webhooks'
+      path: '/webhooks'
+      fullPath: '/webhooks'
+      preLoaderRoute: typeof AppWebhooksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/usage': {
+      id: '/_app/usage'
+      path: '/usage'
+      fullPath: '/usage'
+      preLoaderRoute: typeof AppUsageRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/suppressions': {
+      id: '/_app/suppressions'
+      path: '/suppressions'
+      fullPath: '/suppressions'
+      preLoaderRoute: typeof AppSuppressionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/send-email': {
+      id: '/_app/send-email'
+      path: '/send-email'
+      fullPath: '/send-email'
+      preLoaderRoute: typeof AppSendEmailRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/onboarding': {
+      id: '/_app/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AppOnboardingRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/domains': {
+      id: '/_app/domains'
+      path: '/domains'
+      fullPath: '/domains'
+      preLoaderRoute: typeof AppDomainsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/docs': {
+      id: '/_app/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof AppDocsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/messages/': {
+      id: '/_app/messages/'
+      path: '/messages'
+      fullPath: '/messages/'
+      preLoaderRoute: typeof AppMessagesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/messages/$messageId': {
+      id: '/_app/messages/$messageId'
+      path: '/messages/$messageId'
+      fullPath: '/messages/$messageId'
+      preLoaderRoute: typeof AppMessagesMessageIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admin/api-keys': {
+      id: '/_app/admin/api-keys'
+      path: '/admin/api-keys'
+      fullPath: '/admin/api-keys'
+      preLoaderRoute: typeof AppAdminApiKeysRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppDocsRoute: typeof AppDocsRoute
+  AppDomainsRoute: typeof AppDomainsRoute
+  AppOnboardingRoute: typeof AppOnboardingRoute
+  AppSendEmailRoute: typeof AppSendEmailRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppSuppressionsRoute: typeof AppSuppressionsRoute
+  AppUsageRoute: typeof AppUsageRoute
+  AppWebhooksRoute: typeof AppWebhooksRoute
+  AppAdminApiKeysRoute: typeof AppAdminApiKeysRoute
+  AppMessagesMessageIdRoute: typeof AppMessagesMessageIdRoute
+  AppMessagesIndexRoute: typeof AppMessagesIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
+  AppDocsRoute: AppDocsRoute,
+  AppDomainsRoute: AppDomainsRoute,
+  AppOnboardingRoute: AppOnboardingRoute,
+  AppSendEmailRoute: AppSendEmailRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppSuppressionsRoute: AppSuppressionsRoute,
+  AppUsageRoute: AppUsageRoute,
+  AppWebhooksRoute: AppWebhooksRoute,
+  AppAdminApiKeysRoute: AppAdminApiKeysRoute,
+  AppMessagesMessageIdRoute: AppMessagesMessageIdRoute,
+  AppMessagesIndexRoute: AppMessagesIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  HealthRoute: HealthRoute,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
