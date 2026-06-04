@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Moon, Sun, KeyRound, LogOut, User, Check, X } from "lucide-react";
+import { Moon, Sun, KeyRound, LogOut, User, Check, X, Settings as SettingsIcon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,19 +17,25 @@ export function TopHeader() {
   const masked = apiKey ? apiKey.slice(0, 8) + "…" + apiKey.slice(-4) : null;
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur md:px-4">
+    <header className="sticky top-0 z-40 flex h-16 items-center gap-3 border-b border-border bg-background/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/70 md:px-6">
       <SidebarTrigger />
-      <div className="ml-2 hidden text-sm text-muted-foreground md:block">
+      <div className="ml-1 hidden text-[13px] text-muted-foreground md:block">
         Email Delivery Platform
       </div>
       <div className="ml-auto flex items-center gap-2">
         {apiKey ? (
-          <Badge variant="outline" className="gap-1 font-mono text-xs">
-            <Check className="h-3 w-3 text-success" /> {masked}
+          <Badge
+            variant="outline"
+            className="hidden gap-1.5 rounded-full border-border bg-card px-2.5 py-1 font-mono text-[12px] font-medium text-foreground sm:inline-flex"
+          >
+            <Check className="h-3 w-3 text-success" aria-hidden /> {masked}
           </Badge>
         ) : (
-          <Badge variant="destructive" className="gap-1">
-            <X className="h-3 w-3" /> No API key
+          <Badge
+            variant="outline"
+            className="hidden gap-1.5 rounded-full border-destructive/30 bg-destructive/10 px-2.5 py-1 text-[12px] font-medium text-destructive sm:inline-flex"
+          >
+            <X className="h-3 w-3" aria-hidden /> No API key
           </Badge>
         )}
         <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
@@ -45,10 +51,14 @@ export function TopHeader() {
             <DropdownMenuLabel>Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/settings"><Settings /></Link>
+              <Link to="/settings">
+                <SettingsIcon className="mr-2 h-4 w-4" /> Settings
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/login"><KeyRound className="mr-2 h-4 w-4" /> Change API key</Link>
+              <Link to="/login">
+                <KeyRound className="mr-2 h-4 w-4" /> Change API key
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -64,6 +74,3 @@ export function TopHeader() {
   );
 }
 
-function Settings() {
-  return <><User className="mr-2 h-4 w-4" /> Profile</>;
-}
