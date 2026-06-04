@@ -327,7 +327,7 @@ function KpiCard({ label, value, delta, icon: Icon, tone, spark, loading, invert
             )}
           </div>
           <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-white shadow-sm ${iconBg}`}>
-            <Icon className="h-4.5 w-4.5" />
+            <Icon className="h-[18px] w-[18px]" />
           </div>
         </div>
         <div className="-mb-2 -mx-1 mt-3 h-12">

@@ -41,7 +41,7 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border">
         <Link to="/dashboard" className="flex items-center gap-2.5 px-2 py-2.5">
           <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-primary text-white shadow-glow">
-            <Sparkles className="h-4.5 w-4.5" strokeWidth={2.5} />
+            <Sparkles className="h-[18px] w-[18px]" strokeWidth={2.5} />
             <div className="absolute inset-0 rounded-xl bg-white/10" />
           </div>
           <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
