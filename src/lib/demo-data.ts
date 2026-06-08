@@ -28,7 +28,7 @@ const subjects = [
   "Webhook delivery failed for endpoint",
   "Monthly newsletter — November edition",
 ];
-const domains = ["gmail.com", "yahoo.com", "outlook.com", "icloud.com", "hotmail.com", "protonmail.com", "company.io"];
+const recipientDomains = ["gmail.com", "yahoo.com", "outlook.com", "icloud.com", "hotmail.com", "protonmail.com", "company.io"];
 const tagsPool = ["transactional", "marketing", "welcome", "billing", "alerts", "newsletter", "onboarding", "receipts"];
 const statuses = ["delivered", "delivered", "delivered", "delivered", "opened", "clicked", "queued", "bounced", "complained", "failed"];
 
@@ -39,7 +39,7 @@ export const demoMessages: Message[] = Array.from({ length: 48 }).map((_, i) => 
   const user = `user${1000 + i}`;
   return {
     message_id: `msg_${Math.random().toString(36).slice(2, 10)}${i.toString(36)}`,
-    to: `${user}@${rand(domains)}`,
+    to: `${user}@${rand(recipientDomains)}`,
     subject: rand(subjects),
     status: rand(statuses),
     attempts: 1 + Math.floor(Math.random() * 2),
@@ -101,7 +101,7 @@ export const demoEventStream = Array.from({ length: 8 }).map((_, i) => {
   return {
     id: `evt_${i}`,
     type: t,
-    to: `${["sarah", "marco", "priya", "leo", "noah", "ava", "mia", "kai"][i]}@${rand(domains)}`,
+    to: `${["sarah", "marco", "priya", "leo", "noah", "ava", "mia", "kai"][i]}@${rand(recipientDomains)}`,
     subject: rand(subjects),
     ago: `${(i + 1) * 7}s ago`,
   };
@@ -113,4 +113,75 @@ export const demoIpReputation = [
   { ip: "198.51.100.7", pool: "Marketing",    reputation: 89, sent24h: 28430, status: "good" },
   { ip: "198.51.100.8", pool: "Marketing",    reputation: 74, sent24h: 18120, status: "fair" },
   { ip: "203.0.113.21", pool: "Bulk",         reputation: 62, sent24h: 9840,  status: "watch" },
+];
+
+// ───── Analytics ─────
+export const demoDevices = [
+  { name: "Mobile", value: 58.3, color: "var(--color-chart-1)" },
+  { name: "Desktop", value: 31.2, color: "var(--color-chart-2)" },
+  { name: "Webmail", value: 8.4, color: "var(--color-chart-3)" },
+  { name: "Tablet", value: 2.1, color: "var(--color-chart-4)" },
+];
+
+export const demoMailClients = [
+  { name: "Apple Mail", share: 48.2, opens: 482140 },
+  { name: "Gmail", share: 28.4, opens: 284033 },
+  { name: "Outlook", share: 11.7, opens: 117204 },
+  { name: "Yahoo Mail", share: 4.8, opens: 48120 },
+  { name: "Samsung Mail", share: 3.2, opens: 32014 },
+  { name: "Thunderbird", share: 1.9, opens: 19021 },
+  { name: "Other", share: 1.8, opens: 18119 },
+];
+
+// 7 days × 24 hours heatmap of sending volume
+export const demoHeatmap = Array.from({ length: 7 }).map((_, day) =>
+  Array.from({ length: 24 }).map((_, hour) => {
+    // business-hours-heavy distribution
+    const bell = Math.exp(-Math.pow((hour - 14) / 5, 2));
+    const weekdayMult = day < 5 ? 1 : 0.45;
+    return Math.round(bell * weekdayMult * 1000 + Math.random() * 120);
+  })
+);
+
+export const demoBounceReasons = [
+  { reason: "Mailbox full", count: 412, pct: 28.4 },
+  { reason: "User unknown", count: 384, pct: 26.5 },
+  { reason: "Spam content", count: 218, pct: 15.0 },
+  { reason: "Domain not found", count: 162, pct: 11.2 },
+  { reason: "Greylisted", count: 138, pct: 9.5 },
+  { reason: "Policy reject", count: 87, pct: 6.0 },
+  { reason: "Other", count: 49, pct: 3.4 },
+];
+
+// ───── Logs (event-centric, Mailgun-style) ─────
+const eventTypes = ["delivered", "opened", "clicked", "accepted", "failed", "bounced", "complained", "unsubscribed"] as const;
+const ips = ["192.0.2.14", "192.0.2.15", "198.51.100.7", "198.51.100.8", "203.0.113.21"];
+const senderDomains = ["mail.acme.io", "send.beta.app", "notifications.valasys.io"];
+
+export const demoLogs = Array.from({ length: 120 }).map((_, i) => {
+  const d = new Date(Date.now() - i * 1000 * 47);
+  const t = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+  return {
+    id: `log_${i}_${Math.random().toString(36).slice(2, 8)}`,
+    timestamp: d.toISOString(),
+    event: t,
+    from: `noreply@${rand(senderDomains)}`,
+    to: `user${2000 + i}@${rand(recipientDomains)}`,
+    subject: rand(subjects),
+    ip: rand(ips),
+    domain: rand(senderDomains),
+    response: t === "delivered" ? "250 2.0.0 OK" : t === "bounced" ? "550 5.1.1 user unknown" : t === "failed" ? "421 4.7.0 try later" : "—",
+    size_kb: Math.round(12 + Math.random() * 48),
+    tag: rand(tagsPool),
+  };
+});
+
+// ───── Templates ─────
+export const demoTemplates = [
+  { id: "tpl_welcome", name: "Welcome email", description: "Onboard new signups", version: 4, last_used: new Date(Date.now() - 3600_000 * 2).toISOString(), sends_30d: 12480, status: "active", category: "Transactional" },
+  { id: "tpl_reset", name: "Password reset", description: "Secure password reset flow", version: 2, last_used: new Date(Date.now() - 3600_000 * 1).toISOString(), sends_30d: 8420, status: "active", category: "Transactional" },
+  { id: "tpl_invoice", name: "Monthly invoice", description: "Billing & receipts", version: 7, last_used: new Date(Date.now() - 3600_000 * 12).toISOString(), sends_30d: 3210, status: "active", category: "Billing" },
+  { id: "tpl_newsletter", name: "Product newsletter", description: "Monthly product updates", version: 11, last_used: new Date(Date.now() - 86400_000 * 3).toISOString(), sends_30d: 24820, status: "active", category: "Marketing" },
+  { id: "tpl_alert", name: "Security alert", description: "Suspicious login alerts", version: 3, last_used: new Date(Date.now() - 3600_000 * 5).toISOString(), sends_30d: 1840, status: "active", category: "Transactional" },
+  { id: "tpl_trial", name: "Trial ending soon", description: "3-day warning email", version: 5, last_used: new Date(Date.now() - 86400_000 * 1).toISOString(), sends_30d: 920, status: "draft", category: "Lifecycle" },
 ];
