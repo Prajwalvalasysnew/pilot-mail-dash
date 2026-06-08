@@ -4,7 +4,7 @@ import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart,
   ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
-import { BarChart3, Download, Filter, Globe2, Mail, Smartphone, TrendingUp } from "lucide-react";
+import { Download, Filter, Globe2, Mail, Smartphone, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -248,7 +248,7 @@ function Heatmap({ data }: { data: number[][] }) {
   return (
     <div className="overflow-x-auto">
       <div className="min-w-[640px]">
-        <div className="mb-1 ml-10 grid grid-cols-24 gap-[2px] text-[9px] text-muted-foreground" style={{ gridTemplateColumns: "repeat(24, minmax(0, 1fr))" }}>
+        <div className="mb-1 ml-10 grid gap-[2px] text-[9px] text-muted-foreground" style={{ gridTemplateColumns: "repeat(24, minmax(0, 1fr))" }}>
           {Array.from({ length: 24 }).map((_, h) => (
             <span key={h} className="text-center">{h % 3 === 0 ? `${h}h` : ""}</span>
           ))}
