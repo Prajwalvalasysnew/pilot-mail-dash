@@ -1,24 +1,32 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Send, Globe, Mail, BarChart3, ShieldOff,
-  Webhook, KeyRound, Settings, BookOpen, Rocket, Activity, Sparkles, ChevronRight,
+  Webhook, KeyRound, Settings, BookOpen, Rocket, Activity, ChevronRight,
+  FileText, ScrollText, ChevronsUpDown, Check, Zap,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter,
 } from "@/components/ui/sidebar";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const nav = [
   { group: "Overview", items: [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+    { title: "Analytics", url: "/analytics", icon: BarChart3, badge: "NEW" },
     { title: "Onboarding", url: "/onboarding", icon: Rocket },
   ]},
   { group: "Sending", items: [
     { title: "Send Email", url: "/send-email", icon: Send },
     { title: "Messages", url: "/messages", icon: Mail },
+    { title: "Templates", url: "/templates", icon: FileText, badge: "NEW" },
     { title: "Domains", url: "/domains", icon: Globe },
   ]},
   { group: "Monitor", items: [
+    { title: "Event Logs", url: "/logs", icon: ScrollText, badge: "LIVE" },
     { title: "Usage & Quota", url: "/usage", icon: BarChart3 },
     { title: "Suppressions", url: "/suppressions", icon: ShieldOff },
     { title: "Webhooks", url: "/webhooks", icon: Webhook },
@@ -31,26 +39,61 @@ const nav = [
   ]},
 ];
 
+const workspaces = [
+  { id: "valasys", name: "Valasys Media", env: "Production", plan: "Scale" },
+  { id: "acme", name: "Acme Inc.", env: "Production", plan: "Growth" },
+  { id: "sandbox", name: "Sandbox", env: "Test", plan: "Free" },
+];
+
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (url: string) =>
     url === "/dashboard" ? pathname === url : pathname === url || pathname.startsWith(url + "/");
+  const current = workspaces[0];
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-      <SidebarHeader className="border-b border-sidebar-border bg-sidebar">
-        <Link to="/dashboard" className="flex items-center gap-2.5 px-2 py-2.5">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-primary text-white shadow-glow">
-            <Sparkles className="h-[18px] w-[18px]" strokeWidth={2.5} />
-          </div>
-          <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="text-[15px] font-bold tracking-tight text-sidebar-foreground">V-Mail Pilot</span>
-            <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-sidebar-foreground/55">
-              by Valasys Media
-            </span>
-          </div>
-        </Link>
+      <SidebarHeader className="border-b border-sidebar-border bg-sidebar p-2">
+        {/* Workspace switcher */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="group/ws flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left transition hover:bg-sidebar-accent">
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-primary text-white shadow-glow">
+                <Zap className="h-[18px] w-[18px]" strokeWidth={2.5} />
+              </div>
+              <div className="flex min-w-0 flex-1 flex-col leading-tight group-data-[collapsible=icon]:hidden">
+                <span className="truncate text-[13px] font-bold tracking-tight text-sidebar-foreground">{current.name}</span>
+                <span className="flex items-center gap-1 text-[10px] font-medium text-sidebar-foreground/55">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-1.5 py-px font-semibold uppercase tracking-wider text-success">
+                    <span className="h-1 w-1 rounded-full bg-success" />
+                    {current.env}
+                  </span>
+                  · {current.plan}
+                </span>
+              </div>
+              <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/40 group-hover/ws:text-sidebar-foreground group-data-[collapsible=icon]:hidden" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-64">
+            <DropdownMenuLabel className="text-[11px] uppercase tracking-wider text-muted-foreground">Workspaces</DropdownMenuLabel>
+            {workspaces.map((w, i) => (
+              <DropdownMenuItem key={w.id} className="flex items-start gap-2.5">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-gradient-primary-soft text-[11px] font-bold text-primary">
+                  {w.name[0]}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[12.5px] font-semibold">{w.name}</p>
+                  <p className="text-[10.5px] text-muted-foreground">{w.env} · {w.plan}</p>
+                </div>
+                {i === 0 && <Check className="mt-1 h-3.5 w-3.5 text-primary" />}
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-primary"><Rocket className="mr-2 h-3.5 w-3.5" /> Create workspace</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarHeader>
+
       <SidebarContent className="bg-sidebar px-1.5 py-3">
         {nav.map((group) => (
           <SidebarGroup key={group.group}>
@@ -75,7 +118,16 @@ export function AppSidebar() {
                           )}
                           <item.icon className="h-[15px] w-[15px]" strokeWidth={active ? 2.4 : 2} />
                           <span className="text-[13px]">{item.title}</span>
-                          {active && <ChevronRight className="ml-auto h-3 w-3 opacity-60 group-data-[collapsible=icon]:hidden" />}
+                          {"badge" in item && item.badge && (
+                            <span className={`ml-auto rounded-full px-1.5 py-px text-[9px] font-bold tracking-wider group-data-[collapsible=icon]:hidden ${
+                              item.badge === "LIVE"
+                                ? "bg-success/20 text-success ring-1 ring-success/30"
+                                : "bg-primary/25 text-primary-foreground ring-1 ring-primary/40"
+                            }`}>
+                              {item.badge}
+                            </span>
+                          )}
+                          {active && !("badge" in item && item.badge) && <ChevronRight className="ml-auto h-3 w-3 opacity-60 group-data-[collapsible=icon]:hidden" />}
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -86,6 +138,7 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
+
       <SidebarFooter className="border-t border-sidebar-border bg-sidebar">
         <div className="m-2 overflow-hidden rounded-lg border border-primary/30 bg-gradient-to-br from-primary/15 to-transparent p-3 group-data-[collapsible=icon]:hidden">
           <div className="flex items-center gap-2">
@@ -97,7 +150,11 @@ export function AppSidebar() {
               <p className="text-[10.5px] text-sidebar-foreground/60">Unlock 1M sends / mo</p>
             </div>
           </div>
-          <button className="mt-2.5 w-full rounded-md bg-white/95 px-2 py-1.5 text-[11.5px] font-semibold text-foreground transition hover:bg-white">
+          <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+            <div className="h-full w-[26%] rounded-full bg-gradient-primary" />
+          </div>
+          <p className="mt-1.5 text-[10px] text-sidebar-foreground/55">384k / 1.5M monthly sends</p>
+          <button className="mt-2 w-full rounded-md bg-white/95 px-2 py-1.5 text-[11.5px] font-semibold text-foreground transition hover:bg-white">
             View plans →
           </button>
         </div>

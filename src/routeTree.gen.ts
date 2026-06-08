@@ -16,13 +16,16 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppWebhooksRouteImport } from './routes/_app.webhooks'
 import { Route as AppUsageRouteImport } from './routes/_app.usage'
+import { Route as AppTemplatesRouteImport } from './routes/_app.templates'
 import { Route as AppSuppressionsRouteImport } from './routes/_app.suppressions'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppSendEmailRouteImport } from './routes/_app.send-email'
 import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
+import { Route as AppLogsRouteImport } from './routes/_app.logs'
 import { Route as AppDomainsRouteImport } from './routes/_app.domains'
 import { Route as AppDocsRouteImport } from './routes/_app.docs'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
 import { Route as AppMessagesIndexRouteImport } from './routes/_app.messages.index'
 import { Route as AppMessagesMessageIdRouteImport } from './routes/_app.messages.$messageId'
 import { Route as AppAdminApiKeysRouteImport } from './routes/_app.admin.api-keys'
@@ -61,6 +64,11 @@ const AppUsageRoute = AppUsageRouteImport.update({
   path: '/usage',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTemplatesRoute = AppTemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSuppressionsRoute = AppSuppressionsRouteImport.update({
   id: '/suppressions',
   path: '/suppressions',
@@ -81,6 +89,11 @@ const AppOnboardingRoute = AppOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLogsRoute = AppLogsRouteImport.update({
+  id: '/logs',
+  path: '/logs',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDomainsRoute = AppDomainsRouteImport.update({
   id: '/domains',
   path: '/domains',
@@ -94,6 +107,11 @@ const AppDocsRoute = AppDocsRouteImport.update({
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMessagesIndexRoute = AppMessagesIndexRouteImport.update({
@@ -117,13 +135,16 @@ export interface FileRoutesByFullPath {
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/analytics': typeof AppAnalyticsRoute
   '/dashboard': typeof AppDashboardRoute
   '/docs': typeof AppDocsRoute
   '/domains': typeof AppDomainsRoute
+  '/logs': typeof AppLogsRoute
   '/onboarding': typeof AppOnboardingRoute
   '/send-email': typeof AppSendEmailRoute
   '/settings': typeof AppSettingsRoute
   '/suppressions': typeof AppSuppressionsRoute
+  '/templates': typeof AppTemplatesRoute
   '/usage': typeof AppUsageRoute
   '/webhooks': typeof AppWebhooksRoute
   '/admin/api-keys': typeof AppAdminApiKeysRoute
@@ -135,13 +156,16 @@ export interface FileRoutesByTo {
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/analytics': typeof AppAnalyticsRoute
   '/dashboard': typeof AppDashboardRoute
   '/docs': typeof AppDocsRoute
   '/domains': typeof AppDomainsRoute
+  '/logs': typeof AppLogsRoute
   '/onboarding': typeof AppOnboardingRoute
   '/send-email': typeof AppSendEmailRoute
   '/settings': typeof AppSettingsRoute
   '/suppressions': typeof AppSuppressionsRoute
+  '/templates': typeof AppTemplatesRoute
   '/usage': typeof AppUsageRoute
   '/webhooks': typeof AppWebhooksRoute
   '/admin/api-keys': typeof AppAdminApiKeysRoute
@@ -155,13 +179,16 @@ export interface FileRoutesById {
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_app/analytics': typeof AppAnalyticsRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/docs': typeof AppDocsRoute
   '/_app/domains': typeof AppDomainsRoute
+  '/_app/logs': typeof AppLogsRoute
   '/_app/onboarding': typeof AppOnboardingRoute
   '/_app/send-email': typeof AppSendEmailRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/suppressions': typeof AppSuppressionsRoute
+  '/_app/templates': typeof AppTemplatesRoute
   '/_app/usage': typeof AppUsageRoute
   '/_app/webhooks': typeof AppWebhooksRoute
   '/_app/admin/api-keys': typeof AppAdminApiKeysRoute
@@ -175,13 +202,16 @@ export interface FileRouteTypes {
     | '/health'
     | '/login'
     | '/signup'
+    | '/analytics'
     | '/dashboard'
     | '/docs'
     | '/domains'
+    | '/logs'
     | '/onboarding'
     | '/send-email'
     | '/settings'
     | '/suppressions'
+    | '/templates'
     | '/usage'
     | '/webhooks'
     | '/admin/api-keys'
@@ -193,13 +223,16 @@ export interface FileRouteTypes {
     | '/health'
     | '/login'
     | '/signup'
+    | '/analytics'
     | '/dashboard'
     | '/docs'
     | '/domains'
+    | '/logs'
     | '/onboarding'
     | '/send-email'
     | '/settings'
     | '/suppressions'
+    | '/templates'
     | '/usage'
     | '/webhooks'
     | '/admin/api-keys'
@@ -212,13 +245,16 @@ export interface FileRouteTypes {
     | '/health'
     | '/login'
     | '/signup'
+    | '/_app/analytics'
     | '/_app/dashboard'
     | '/_app/docs'
     | '/_app/domains'
+    | '/_app/logs'
     | '/_app/onboarding'
     | '/_app/send-email'
     | '/_app/settings'
     | '/_app/suppressions'
+    | '/_app/templates'
     | '/_app/usage'
     | '/_app/webhooks'
     | '/_app/admin/api-keys'
@@ -285,6 +321,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppUsageRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/templates': {
+      id: '/_app/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof AppTemplatesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/suppressions': {
       id: '/_app/suppressions'
       path: '/suppressions'
@@ -313,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOnboardingRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/logs': {
+      id: '/_app/logs'
+      path: '/logs'
+      fullPath: '/logs'
+      preLoaderRoute: typeof AppLogsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/domains': {
       id: '/_app/domains'
       path: '/domains'
@@ -332,6 +382,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/analytics': {
+      id: '/_app/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/messages/': {
@@ -359,13 +416,16 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppDocsRoute: typeof AppDocsRoute
   AppDomainsRoute: typeof AppDomainsRoute
+  AppLogsRoute: typeof AppLogsRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppSendEmailRoute: typeof AppSendEmailRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppSuppressionsRoute: typeof AppSuppressionsRoute
+  AppTemplatesRoute: typeof AppTemplatesRoute
   AppUsageRoute: typeof AppUsageRoute
   AppWebhooksRoute: typeof AppWebhooksRoute
   AppAdminApiKeysRoute: typeof AppAdminApiKeysRoute
@@ -374,13 +434,16 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppDocsRoute: AppDocsRoute,
   AppDomainsRoute: AppDomainsRoute,
+  AppLogsRoute: AppLogsRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppSendEmailRoute: AppSendEmailRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppSuppressionsRoute: AppSuppressionsRoute,
+  AppTemplatesRoute: AppTemplatesRoute,
   AppUsageRoute: AppUsageRoute,
   AppWebhooksRoute: AppWebhooksRoute,
   AppAdminApiKeysRoute: AppAdminApiKeysRoute,
