@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { format } from "date-fns";
 import { ChevronLeft, ChevronRight, Download, RefreshCw, Search, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -115,7 +115,7 @@ function LogsPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {page.map(l => (
-                  <FragmentRow key={l.id}>
+                  <Fragment key={l.id}>
                     <tr
                       onClick={() => setExpanded(expanded === l.id ? null : l.id)}
                       className="group cursor-pointer transition hover:bg-muted/40"
@@ -149,7 +149,7 @@ function LogsPage() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
