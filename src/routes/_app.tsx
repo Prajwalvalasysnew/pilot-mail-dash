@@ -14,10 +14,16 @@ function AppLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Allow viewing onboarding without key
     if (!hasKey && typeof window !== "undefined") {
       const path = window.location.pathname;
-      if (path !== "/onboarding" && path !== "/settings" && path !== "/docs" && path !== "/admin/api-keys") {
+      // Pages safe to browse without a connected API key (use demo data)
+      const publicPaths = [
+        "/onboarding", "/settings", "/docs", "/admin/api-keys",
+        "/dashboard", "/analytics", "/logs", "/templates",
+        "/messages", "/domains", "/usage", "/suppressions", "/webhooks",
+        "/send-email", "/health",
+      ];
+      if (!publicPaths.some(p => path === p || path.startsWith(p + "/"))) {
         navigate({ to: "/login" });
       }
     }
