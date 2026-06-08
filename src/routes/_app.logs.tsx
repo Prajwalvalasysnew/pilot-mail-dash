@@ -115,9 +115,8 @@ function LogsPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {page.map(l => (
-                  <>
+                  <FragmentRow key={l.id}>
                     <tr
-                      key={l.id}
                       onClick={() => setExpanded(expanded === l.id ? null : l.id)}
                       className="group cursor-pointer transition hover:bg-muted/40"
                     >
