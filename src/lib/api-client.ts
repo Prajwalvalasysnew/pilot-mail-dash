@@ -49,7 +49,7 @@ interface RequestOpts {
   method?: string;
   body?: unknown;
   auth?: boolean;
-  query?: Record<string, string | number | boolean | undefined | null>;
+  query?: Record<string, unknown> | object;
   signal?: AbortSignal;
   headers?: Record<string, string>;
   /** Return raw Response (e.g. for CSV downloads). */
