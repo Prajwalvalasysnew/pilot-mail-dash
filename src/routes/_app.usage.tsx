@@ -6,20 +6,27 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader } from "@/components/PageHeader";
-import { getUsage, getQuota } from "@/lib/api-client";
+import { getQuota } from "@/lib/api-client";
+import { demoUsage, type UsageDay } from "@/lib/demo-data";
 
 export const Route = createFileRoute("/_app/usage")({ component: UsagePage });
 
 function UsagePage() {
-  const usageQ = useQuery({ queryKey: ["usage"], queryFn: getUsage });
-  const quotaQ = useQuery({ queryKey: ["quota"], queryFn: getQuota });
-  const daily = usageQ.data?.daily ?? [];
+  const quotaQ = useQuery({ queryKey: ["quota"], queryFn: getQuota, retry: false });
+
+  // The /v1/usage endpoint exposes scalar daily/monthly totals only;
+  // the 14-day breakdown chart and table use demo data as illustrative reference.
+  const daily: UsageDay[] = demoUsage;
   const chartData = [...daily].reverse().map(d => ({ date: d.usage_date.slice(5), ...d }));
-  const totalComplaints = daily.reduce((a, d) => a + d.complained, 0);
+  const totalComplaints = daily.reduce((a: number, d: UsageDay) => a + d.complained, 0);
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Usage & Quota" description="Monitor sending volume and quota consumption." />
+      <PageHeader title="Usage & Quota" description="Monitor sending volume and quota consumption for the current period." />
+
+      {quotaQ.data?.period && (
+        <p className="text-xs text-muted-foreground">Billing period: <span className="font-mono">{quotaQ.data.period}</span></p>
+      )}
 
       <div className="grid gap-4 lg:grid-cols-2">
         <QuotaCard title="Daily quota" loading={quotaQ.isLoading}
@@ -34,10 +41,10 @@ function UsagePage() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Daily volume</CardTitle>
-            <CardDescription>Delivered vs Bounced per day</CardDescription>
+            <CardDescription>Delivered vs Bounced per day (illustrative)</CardDescription>
           </CardHeader>
           <CardContent className="h-72">
-            {usageQ.isLoading ? <Skeleton className="h-full w-full" /> : (
+            {!chartData.length ? <Skeleton className="h-full w-full" /> : (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
@@ -64,28 +71,26 @@ function UsagePage() {
       <Card>
         <CardHeader><CardTitle>Daily breakdown</CardTitle></CardHeader>
         <CardContent>
-          {usageQ.isLoading ? <Skeleton className="h-40 w-full" /> : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead><TableHead>Sent</TableHead>
-                  <TableHead>Delivered</TableHead><TableHead>Bounced</TableHead>
-                  <TableHead>Complained</TableHead>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead><TableHead>Sent</TableHead>
+                <TableHead>Delivered</TableHead><TableHead>Bounced</TableHead>
+                <TableHead>Complained</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {daily.map((d: UsageDay) => (
+                <TableRow key={d.usage_date}>
+                  <TableCell>{d.usage_date}</TableCell>
+                  <TableCell>{d.sent}</TableCell>
+                  <TableCell className="text-success">{d.delivered}</TableCell>
+                  <TableCell className="text-destructive">{d.bounced}</TableCell>
+                  <TableCell>{d.complained}</TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {daily.map(d => (
-                  <TableRow key={d.usage_date}>
-                    <TableCell>{d.usage_date}</TableCell>
-                    <TableCell>{d.sent}</TableCell>
-                    <TableCell className="text-success">{d.delivered}</TableCell>
-                    <TableCell className="text-destructive">{d.bounced}</TableCell>
-                    <TableCell>{d.complained}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
+              ))}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
     </div>

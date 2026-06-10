@@ -25,7 +25,7 @@ function SettingsPage() {
   const navigate = useNavigate();
 
   const testMut = useMutation({
-    mutationFn: () => apiRequest("/v1/usage/quota"),
+    mutationFn: () => apiRequest("/v1/usage"),
     onSuccess: () => toast.success("Connected successfully"),
     onError: (e: Error) => toast.error(`Failed: ${e.message}`),
   });

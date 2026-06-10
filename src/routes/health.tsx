@@ -55,7 +55,7 @@ function HealthPage() {
             </div>
             <Row label="API Base URL" value={getApiBase()} mono />
             <Row label="Status" value={state.data?.status ?? (state.error ? "error" : "—")} />
-            <Row label="Server Timestamp" value={state.data?.ts ?? "—"} mono />
+            <Row label="Server" value={state.data ? "reachable" : "—"} mono />
             {state.error && (
               <div className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
                 {state.error}

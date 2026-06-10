@@ -28,11 +28,11 @@ function MessagesPage() {
   const [offset, setOffset] = useState(0);
 
   const { data, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ["messages", { status, tag, to, limit, offset }],
+    queryKey: ["messages", { status, tag, to, limit }],
     queryFn: () => listMessages({
       status: status === "all" ? undefined : status,
       tag: tag || undefined, to: to || undefined,
-      limit, offset,
+      limit,
     }),
     retry: false,
   });
