@@ -19,6 +19,7 @@ import { getQuota, getUsage, listMessages } from "@/lib/api-client";
 import {
   demoUsage, demoQuota, demoMessages, demoTopDomains, demoCountries,
   demoEventStream, demoIpReputation,
+  type UsageDay,
 } from "@/lib/demo-data";
 import { format } from "date-fns";
 
@@ -29,15 +30,21 @@ function Dashboard() {
   const usageQ = useQuery({ queryKey: ["usage"], queryFn: getUsage, retry: false });
   const messagesQ = useQuery({ queryKey: ["messages", { limit: 6 }], queryFn: () => listMessages({ limit: 6 }), retry: false });
 
-  // Fall back to dummy data when API not available / empty
-  const daily = usageQ.data?.daily?.length ? usageQ.data.daily : demoUsage;
+  // The backend's /v1/usage returns scalar daily/monthly counts. For the
+  // 14-day series visualisations we rely on demo data (no historical endpoint).
+  const daily: UsageDay[] = demoUsage;
+  // Overlay today's live usage if the API responded.
+  if (usageQ.data && daily[0]) {
+    daily[0] = { ...daily[0], sent: usageQ.data.daily_used };
+  }
   const quota = quotaQ.data ?? demoQuota;
   const messages = messagesQ.data?.messages?.length ? messagesQ.data.messages : demoMessages.slice(0, 6);
 
   const today = daily[0];
   const yesterday = daily[1];
   const totals = daily.reduce(
-    (a, d) => ({ sent: a.sent + d.sent, delivered: a.delivered + d.delivered, bounced: a.bounced + d.bounced, complained: a.complained + d.complained }),
+    (a: { sent: number; delivered: number; bounced: number; complained: number }, d: UsageDay) =>
+      ({ sent: a.sent + d.sent, delivered: a.delivered + d.delivered, bounced: a.bounced + d.bounced, complained: a.complained + d.complained }),
     { sent: 0, delivered: 0, bounced: 0, complained: 0 }
   );
   const deliveryRate = totals.sent ? (totals.delivered / totals.sent) * 100 : 0;
