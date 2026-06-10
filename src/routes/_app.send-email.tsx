@@ -48,7 +48,8 @@ function SendEmailPage() {
       subject: vals.subject, html: vals.html || undefined, text: vals.text || undefined,
       tags: tags.length ? tags : undefined,
       metadata: meta.length ? Object.fromEntries(meta.filter(m => m.k).map(m => [m.k, m.v])) : undefined,
-      tracking: { opens: vals.opens, clicks: vals.clicks },
+      tracking_opens: vals.opens,
+      tracking_clicks: vals.clicks,
       ip_pool: vals.ip_pool,
     };
     try {
@@ -76,7 +77,6 @@ function SendEmailPage() {
             </CardTitle>
             <CardDescription>
               {result.accepted} accepted · {result.rejected} rejected
-              {result.suppressed.length ? ` · ${result.suppressed.length} suppressed` : ""}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
@@ -88,10 +88,13 @@ function SendEmailPage() {
                 </Button>
               </div>
             ))}
-            {result.suppressed.length > 0 && (
+            {result.results?.some(r => !r.accepted) && (
               <div className="rounded border border-warning/30 bg-warning/10 p-3 text-xs">
                 <AlertTriangle className="mr-1 inline h-3.5 w-3.5" />
-                Suppressed: {result.suppressed.join(", ")}
+                {result.results.filter(r => !r.accepted).length} recipient(s) rejected
+                {result.results.filter(r => !r.accepted).map(r => r.reason).filter(Boolean).join(", ") && (
+                  <>: {result.results.filter(r => !r.accepted).map(r => r.reason).filter(Boolean).join(", ")}</>
+                )}
               </div>
             )}
           </CardContent>

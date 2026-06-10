@@ -61,7 +61,7 @@ export async function apiRequest<T = unknown>(path: string, opts: RequestOpts = 
   const base = getApiBase();
   const url = new URL(base + path);
   if (query) {
-    Object.entries(query).forEach(([k, v]) => {
+    Object.entries(query as Record<string, unknown>).forEach(([k, v]) => {
       if (v !== undefined && v !== null && v !== "") url.searchParams.set(k, String(v));
     });
   }

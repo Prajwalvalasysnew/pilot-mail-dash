@@ -1,5 +1,7 @@
 // Demo/dummy data used as fallback when API is unavailable or returns empty.
-import type { Message, UsageDay, Domain, Suppression, Webhook } from "./api-client";
+import type { Message, Domain, Suppression, Webhook } from "./api-client";
+
+export interface UsageDay { usage_date: string; sent: number; delivered: number; bounced: number; complained: number }
 
 export const demoUsage: UsageDay[] = Array.from({ length: 14 }).map((_, i) => {
   const d = new Date();

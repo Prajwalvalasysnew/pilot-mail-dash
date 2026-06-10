@@ -16,7 +16,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Badge } from "@/components/ui/badge";
 import { PageHeader, EmptyState } from "@/components/PageHeader";
 import { TableSkeleton } from "@/components/TableSkeleton";
-import { listSuppressions, addSuppression, deleteSuppression } from "@/lib/api-client";
+import { listSuppressions, addSuppression, deleteSuppression, type SuppressionReason } from "@/lib/api-client";
 
 export const Route = createFileRoute("/_app/suppressions")({ component: SuppressionsPage });
 
@@ -37,12 +37,16 @@ function SuppressionsPage() {
   const qc = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["suppressions", { reason, email }],
+    queryKey: ["suppressions", { reason }],
     queryFn: () => listSuppressions({
       reason: reason === "all" ? undefined : reason,
-      email: email || undefined,
+      limit: 500,
     }),
   });
+
+  // Client-side email substring filter (API does not expose it directly).
+  const visible = (data?.suppressions ?? []).filter((s) =>
+    !email || s.email.toLowerCase().includes(email.toLowerCase()));
 
   const { register, handleSubmit, reset, formState: { errors }, setValue, watch } = useForm<{ email: string; reason: string; notes?: string }>({
     defaultValues: { reason: "manual" },
@@ -69,7 +73,7 @@ function SuppressionsPage() {
             <DialogTrigger asChild><Button><Plus className="mr-1.5 h-4 w-4" /> Add suppression</Button></DialogTrigger>
             <DialogContent>
               <DialogHeader><DialogTitle>Add suppression</DialogTitle></DialogHeader>
-              <form onSubmit={handleSubmit(v => addMut.mutate(v))} className="space-y-4">
+              <form onSubmit={handleSubmit(v => addMut.mutate({ ...v, reason: v.reason as SuppressionReason }))} className="space-y-4">
                 <div>
                   <Label>Email</Label>
                   <Input {...register("email", { required: "Required", pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email" } })} />
@@ -114,7 +118,7 @@ function SuppressionsPage() {
       <Card>
         <CardContent className="p-0">
           {isLoading ? <div className="p-4"><TableSkeleton columns={4} /></div>
-            : (data?.suppressions?.length ?? 0) === 0 ? (
+            : visible.length === 0 ? (
               <EmptyState icon={ShieldOff} title="No suppressions found"
                 description="Suppressed addresses appear here automatically after bounces or complaints." />
             ) : (
@@ -127,7 +131,7 @@ function SuppressionsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data?.suppressions?.map((s) => (
+                  {visible.map((s) => (
                     <TableRow key={s.email}>
                       <TableCell className="font-medium">{s.email}</TableCell>
                       <TableCell>
