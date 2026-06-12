@@ -4,6 +4,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { TopHeader } from "@/components/layout/TopHeader";
 import { useApiKey } from "@/hooks/use-api-key";
+import { AgentLauncher } from "@/components/ai/AgentLauncher";
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
@@ -39,6 +40,7 @@ function AppLayout() {
             <Outlet />
           </main>
         </SidebarInset>
+        <AgentLauncher />
       </div>
     </SidebarProvider>
   );
