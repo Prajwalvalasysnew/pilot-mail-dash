@@ -105,11 +105,11 @@ export function chatStream(body: { message: string; conversation_id?: string }, 
           try { parsed = JSON.parse(data); } catch { /* keep string */ }
           const p = parsed as Record<string, unknown>;
           if (event === "status") h.onStatus?.(p);
-          else if (event === "token") h.onToken?.(typeof p === "string" ? (p as unknown as string) : String((p as { text?: string }).text ?? ""));
-          else if (event === "step") h.onStep?.(p as AgentStep);
-          else if (event === "pending" || event === "pending_confirmation") h.onPending?.(p as PendingConfirmation);
-          else if (event === "done") h.onDone?.(p as Partial<ChatResponse>);
-          else if (event === "error") h.onError?.(typeof p === "string" ? (p as unknown as string) : String((p as { message?: string }).message ?? "stream error"));
+          else if (event === "token") h.onToken?.(typeof parsed === "string" ? parsed : String((p as { text?: string }).text ?? ""));
+          else if (event === "step") h.onStep?.(parsed as unknown as AgentStep);
+          else if (event === "pending" || event === "pending_confirmation") h.onPending?.(parsed as unknown as PendingConfirmation);
+          else if (event === "done") h.onDone?.(parsed as unknown as Partial<ChatResponse>);
+          else if (event === "error") h.onError?.(typeof parsed === "string" ? parsed : String((p as { message?: string }).message ?? "stream error"));
         }
       }
       h.onDone?.({});
