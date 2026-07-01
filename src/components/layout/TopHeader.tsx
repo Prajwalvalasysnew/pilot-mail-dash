@@ -36,13 +36,13 @@ export function TopHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 flex h-16 items-center gap-3 border-b border-border bg-background/70 px-4 backdrop-blur-xl md:px-6">
+      <header className="sticky top-0 z-40 flex h-14 items-center gap-2.5 border-b border-border bg-background/85 px-4 backdrop-blur-xl md:px-6">
         <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
 
         {/* Env selector */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="hidden h-8 items-center gap-1.5 rounded-md border border-border bg-card px-2.5 text-[11.5px] font-semibold text-foreground transition hover:bg-muted md:inline-flex">
+            <button className="hidden h-7 items-center gap-1.5 rounded-md border border-border bg-card px-2 text-[11.5px] font-medium text-foreground transition hover:bg-muted md:inline-flex">
               <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse-dot" /> Production
               <ChevronDown className="h-3 w-3 text-muted-foreground" />
             </button>
@@ -58,53 +58,50 @@ export function TopHeader() {
         {/* Command palette trigger */}
         <button
           onClick={() => setCmdOpen(true)}
-          className="ml-1 hidden h-9 w-full max-w-md items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 text-left text-[13px] text-muted-foreground transition hover:border-primary/40 hover:bg-muted md:flex"
+          className="ml-1 hidden h-8 w-full max-w-sm items-center gap-2 rounded-md border border-border bg-card px-2.5 text-left text-[12.5px] text-muted-foreground transition hover:border-ring/40 hover:bg-muted/60 md:flex"
         >
           <Search className="h-3.5 w-3.5" />
-          <span className="flex-1">Search messages, domains, events…</span>
-          <kbd className="hidden items-center gap-0.5 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] font-medium lg:inline-flex">
+          <span className="flex-1 truncate">Search messages, domains, events…</span>
+          <kbd className="hidden items-center gap-0.5 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] font-medium text-muted-foreground lg:inline-flex">
             <Command className="h-2.5 w-2.5" />K
           </kbd>
         </button>
 
-        <div className="ml-auto flex items-center gap-1.5">
+        <div className="ml-auto flex items-center gap-1">
           {apiKey ? (
-            <Badge variant="outline" className="hidden h-8 items-center gap-1.5 rounded-full border-success/30 bg-success/5 px-2.5 font-mono text-[11.5px] font-medium sm:inline-flex">
+            <Badge variant="outline" className="hidden h-7 items-center gap-1.5 rounded-md border-border bg-card px-2 font-mono text-[11px] font-medium text-muted-foreground sm:inline-flex">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
               </span>
               <span className="text-foreground">{masked}</span>
             </Badge>
           ) : (
-            <Badge variant="outline" className="hidden h-8 items-center gap-1.5 rounded-full border-destructive/30 bg-destructive/5 px-2.5 text-[11.5px] font-medium text-destructive sm:inline-flex">
+            <Badge variant="outline" className="hidden h-7 items-center gap-1.5 rounded-md border-destructive/25 bg-destructive/5 px-2 text-[11px] font-medium text-destructive sm:inline-flex">
               <X className="h-3 w-3" /> Not connected
             </Badge>
           )}
 
-          <Button asChild size="sm" className="hidden h-8 rounded-md bg-gradient-primary text-white shadow-sm hover:shadow-glow sm:inline-flex">
+          <Button asChild size="sm" className="hidden h-7 rounded-md bg-foreground px-2.5 text-[12px] font-medium text-background shadow-xs hover:bg-foreground/90 sm:inline-flex">
             <Link to="/send-email"><Plus className="mr-1 h-3.5 w-3.5" /> Send</Link>
           </Button>
 
-          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground" aria-label="Docs" asChild>
+          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="Docs" asChild>
             <Link to="/docs"><BookOpen className="h-4 w-4" /></Link>
           </Button>
 
           {/* Notifications */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="relative h-9 w-9 rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground" aria-label="Notifications">
+              <button className="relative h-8 w-8 rounded-md text-muted-foreground transition hover:bg-muted hover:text-foreground" aria-label="Notifications">
                 <Bell className="mx-auto h-4 w-4" />
-                <span className="absolute right-1.5 top-1.5 flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-                </span>
+                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-primary ring-2 ring-background" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-80">
               <DropdownMenuLabel className="flex items-center justify-between">
-                <span>Notifications</span>
-                <Badge variant="outline" className="rounded-full text-[10px]">3 new</Badge>
+                <span className="text-[12.5px]">Notifications</span>
+                <Badge variant="outline" className="rounded-md border-border text-[10px] font-medium">3 new</Badge>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               {[
@@ -112,38 +109,38 @@ export function TopHeader() {
                 { icon: KeyRound, title: "New API key created", desc: "by sarah@valasys.io · 1 hour ago", tone: "info" as const },
                 { icon: SettingsIcon, title: "DKIM verified", desc: "mail.acme.io · 3 hours ago", tone: "success" as const },
               ].map((n, i) => (
-                <DropdownMenuItem key={i} className="flex items-start gap-2.5 py-2.5">
-                  <div className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${
-                    n.tone === "warning" ? "bg-warning/15 text-warning-foreground" :
-                    n.tone === "success" ? "bg-success/15 text-success" : "bg-info/15 text-info"
+                <DropdownMenuItem key={i} className="flex items-start gap-2.5 py-2">
+                  <div className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md ring-1 ${
+                    n.tone === "warning" ? "bg-warning/10 text-warning-foreground ring-warning/20" :
+                    n.tone === "success" ? "bg-success/10 text-success ring-success/20" : "bg-info/10 text-info ring-info/20"
                   }`}>
                     <n.icon className="h-3.5 w-3.5" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[12.5px] font-semibold">{n.title}</p>
-                    <p className="text-[11px] text-muted-foreground">{n.desc}</p>
+                    <p className="text-[12.5px] font-medium leading-tight">{n.title}</p>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">{n.desc}</p>
                   </div>
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="justify-center text-[12px] text-primary">View all</DropdownMenuItem>
+              <DropdownMenuItem className="justify-center text-[12px] font-medium text-primary">View all</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button variant="ghost" size="icon" onClick={toggle} className="h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground" aria-label="Toggle theme">
+          <Button variant="ghost" size="icon" onClick={toggle} className="h-8 w-8 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="Toggle theme">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="ml-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-primary text-[12px] font-bold text-white shadow-sm transition hover:shadow-glow" aria-label="Account">
+              <button className="ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-[11px] font-semibold text-background ring-1 ring-border transition hover:opacity-90" aria-label="Account">
                 VM
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-primary text-[12px] font-bold text-white">VM</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-[11px] font-semibold text-background">VM</div>
                   <div className="flex flex-col">
                     <span className="text-[13px] font-semibold">Valasys Media</span>
                     <span className="text-[11px] font-normal text-muted-foreground">admin@valasys.io</span>
