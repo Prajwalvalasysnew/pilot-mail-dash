@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Send, Globe, Mail, BarChart3, ShieldOff,
   Webhook, KeyRound, Settings, BookOpen, Rocket, Activity, ChevronRight,
-  FileText, ScrollText, ChevronsUpDown, Check, Zap,
+  FileText, ScrollText, ChevronsUpDown, Check, Zap, Sparkles,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
