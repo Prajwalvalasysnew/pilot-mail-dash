@@ -30,12 +30,17 @@ export function TopHeader() {
         e.preventDefault();
         setCmdOpen(o => !o);
       }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "j") {
+        e.preventDefault();
+        navigate({ to: "/ai" });
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [navigate]);
 
   const go = (to: string) => { setCmdOpen(false); navigate({ to }); };
+  const askAi = (q: string) => { setCmdOpen(false); navigate({ to: "/ai", search: { q } }); };
 
   return (
     <>
