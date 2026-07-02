@@ -186,32 +186,64 @@ export function TopHeader() {
         </div>
       </header>
 
+      {/* Breadcrumbs / page context bar */}
+      {crumbs.length > 1 && (
+        <div className="sticky top-16 z-30 flex h-9 items-center gap-1.5 border-b border-border bg-background/60 px-4 backdrop-blur md:px-6">
+          <Home className="h-3 w-3 text-muted-foreground" />
+          {crumbs.map((c, i) => (
+            <Fragment key={i}>
+              {i > 0 && <ChevronRight className="h-3 w-3 text-muted-foreground/60" />}
+              {c.to ? (
+                <Link to={c.to} className="text-[11.5px] font-medium text-muted-foreground transition hover:text-foreground">
+                  {c.label}
+                </Link>
+              ) : (
+                <span className={`text-[11.5px] ${i === crumbs.length - 1 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                  {c.label}
+                </span>
+              )}
+            </Fragment>
+          ))}
+        </div>
+      )}
+
       {/* Command palette */}
       <CommandDialog open={cmdOpen} onOpenChange={setCmdOpen}>
         <CommandInput placeholder="Search or jump to anything…" />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Pages">
-            <CommandItem onSelect={() => go("/dashboard")}>Dashboard</CommandItem>
-            <CommandItem onSelect={() => go("/analytics")}>Analytics</CommandItem>
-            <CommandItem onSelect={() => go("/messages")}>Messages</CommandItem>
-            <CommandItem onSelect={() => go("/logs")}>Event Logs</CommandItem>
-            <CommandItem onSelect={() => go("/templates")}>Templates</CommandItem>
-            <CommandItem onSelect={() => go("/domains")}>Domains</CommandItem>
-            <CommandItem onSelect={() => go("/webhooks")}>Webhooks</CommandItem>
-            <CommandItem onSelect={() => go("/suppressions")}>Suppressions</CommandItem>
+          <CommandGroup heading="Ask Valasys AI">
+            <CommandItem onSelect={() => go("/ai")}><Sparkles className="mr-2 h-3.5 w-3.5 text-primary" /> Open AI workspace <kbd className="ml-auto rounded border border-border bg-muted px-1 font-mono text-[10px]">⌘J</kbd></CommandItem>
+            <CommandItem onSelect={() => askAi("What was the open rate of my last campaign?")}><BarChart3 className="mr-2 h-3.5 w-3.5" /> Ask about campaign performance</CommandItem>
+            <CommandItem onSelect={() => askAi("Draft a follow-up email for a warm lead")}><FileText className="mr-2 h-3.5 w-3.5" /> Draft a follow-up email</CommandItem>
+            <CommandItem onSelect={() => askAi("Why did my bounce rate spike this week?")}><Activity className="mr-2 h-3.5 w-3.5" /> Diagnose deliverability</CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Actions">
+          <CommandGroup heading="Navigate">
+            <CommandItem onSelect={() => go("/dashboard")}><LayoutDashboard className="mr-2 h-3.5 w-3.5" /> Dashboard</CommandItem>
+            <CommandItem onSelect={() => go("/analytics")}><BarChart3 className="mr-2 h-3.5 w-3.5" /> Analytics</CommandItem>
+            <CommandItem onSelect={() => go("/messages")}><Mail className="mr-2 h-3.5 w-3.5" /> Messages</CommandItem>
+            <CommandItem onSelect={() => go("/logs")}><ScrollText className="mr-2 h-3.5 w-3.5" /> Event Logs</CommandItem>
+            <CommandItem onSelect={() => go("/templates")}><FileText className="mr-2 h-3.5 w-3.5" /> Templates</CommandItem>
+            <CommandItem onSelect={() => go("/domains")}><Globe className="mr-2 h-3.5 w-3.5" /> Domains</CommandItem>
+            <CommandItem onSelect={() => go("/webhooks")}><Webhook className="mr-2 h-3.5 w-3.5" /> Webhooks</CommandItem>
+            <CommandItem onSelect={() => go("/suppressions")}><ShieldOff className="mr-2 h-3.5 w-3.5" /> Suppressions</CommandItem>
+            <CommandItem onSelect={() => go("/usage")}><BarChart3 className="mr-2 h-3.5 w-3.5" /> Usage & Quota</CommandItem>
+            <CommandItem onSelect={() => go("/onboarding")}><Rocket className="mr-2 h-3.5 w-3.5" /> Onboarding</CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Create">
             <CommandItem onSelect={() => go("/send-email")}><Plus className="mr-2 h-3.5 w-3.5" /> Send new email</CommandItem>
-            <CommandItem onSelect={() => go("/domains")}>Add a sending domain</CommandItem>
-            <CommandItem onSelect={() => go("/admin/api-keys")}>Create API key</CommandItem>
-            <CommandItem onSelect={() => go("/webhooks")}>Add a webhook</CommandItem>
+            <CommandItem onSelect={() => go("/domains")}><Globe className="mr-2 h-3.5 w-3.5" /> Add a sending domain</CommandItem>
+            <CommandItem onSelect={() => go("/admin/api-keys")}><KeyRound className="mr-2 h-3.5 w-3.5" /> Create API key</CommandItem>
+            <CommandItem onSelect={() => go("/webhooks")}><Webhook className="mr-2 h-3.5 w-3.5" /> Add a webhook</CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem onSelect={toggle}>{theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}</CommandItem>
-            <CommandItem onSelect={() => go("/settings")}>Open settings</CommandItem>
+          <CommandGroup heading="Preferences">
+            <CommandItem onSelect={toggle}>{theme === "dark" ? <><Sun className="mr-2 h-3.5 w-3.5" /> Switch to light mode</> : <><Moon className="mr-2 h-3.5 w-3.5" /> Switch to dark mode</>}</CommandItem>
+            <CommandItem onSelect={() => go("/settings")}><SettingsIcon className="mr-2 h-3.5 w-3.5" /> Open settings</CommandItem>
+            <CommandItem onSelect={() => go("/docs")}><BookOpen className="mr-2 h-3.5 w-3.5" /> View docs</CommandItem>
+            <CommandItem onSelect={() => go("/health")}><Activity className="mr-2 h-3.5 w-3.5" /> System health</CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
