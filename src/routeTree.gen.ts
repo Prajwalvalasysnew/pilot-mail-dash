@@ -27,7 +27,6 @@ import { Route as AppDocsRouteImport } from './routes/_app.docs'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
 import { Route as AppAiRouteImport } from './routes/_app.ai'
-import { Route as AppAiRouteImport } from './routes/_app.ai'
 import { Route as AppMessagesIndexRouteImport } from './routes/_app.messages.index'
 import { Route as AppMessagesMessageIdRouteImport } from './routes/_app.messages.$messageId'
 import { Route as AppAdminApiKeysRouteImport } from './routes/_app.admin.api-keys'
@@ -114,6 +113,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAiRoute = AppAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAiRoute = AppAiRouteImport.update({
