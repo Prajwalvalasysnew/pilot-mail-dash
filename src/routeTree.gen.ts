@@ -143,7 +143,6 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/ai': typeof AppAiRoute
   '/analytics': typeof AppAnalyticsRoute
-  '/ai': typeof AppAiRoute
   '/dashboard': typeof AppDashboardRoute
   '/docs': typeof AppDocsRoute
   '/domains': typeof AppDomainsRoute
