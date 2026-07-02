@@ -16,6 +16,7 @@ import {
 const nav = [
   { group: "Overview", items: [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+    { title: "Valasys AI", url: "/ai", icon: Sparkles, badge: "BETA" },
     { title: "Analytics", url: "/analytics", icon: BarChart3, badge: "NEW" },
     { title: "Onboarding", url: "/onboarding", icon: Rocket },
   ]},
