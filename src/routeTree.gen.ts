@@ -120,11 +120,6 @@ const AppAiRoute = AppAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAiRoute = AppAiRouteImport.update({
-  id: '/ai',
-  path: '/ai',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppMessagesIndexRoute = AppMessagesIndexRouteImport.update({
   id: '/messages/',
   path: '/messages/',
@@ -148,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/ai': typeof AppAiRoute
   '/analytics': typeof AppAnalyticsRoute
+  '/ai': typeof AppAiRoute
   '/dashboard': typeof AppDashboardRoute
   '/docs': typeof AppDocsRoute
   '/domains': typeof AppDomainsRoute
