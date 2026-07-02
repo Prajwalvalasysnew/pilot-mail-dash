@@ -123,6 +123,8 @@ export function AppSidebar() {
                             <span className={`ml-auto rounded-full px-1.5 py-px text-[9px] font-bold tracking-wider group-data-[collapsible=icon]:hidden ${
                               item.badge === "LIVE"
                                 ? "bg-success/20 text-success ring-1 ring-success/30"
+                                : item.badge === "BETA"
+                                ? "bg-gradient-primary text-white ring-1 ring-primary/40 shadow-glow"
                                 : "bg-primary/25 text-primary-foreground ring-1 ring-primary/40"
                             }`}>
                               {item.badge}
