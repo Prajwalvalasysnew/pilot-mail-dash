@@ -89,6 +89,17 @@ export function TopHeader() {
             <Link to="/send-email"><Plus className="mr-1 h-3.5 w-3.5" /> Send</Link>
           </Button>
 
+          <Button
+            asChild variant="outline" size="sm"
+            className="hidden h-8 items-center gap-1.5 rounded-md border-primary/30 bg-primary/5 text-[12px] font-semibold text-foreground hover:bg-primary/10 md:inline-flex"
+          >
+            <Link to="/ai">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              Ask Valasys AI
+              <kbd className="ml-1 hidden rounded border border-border bg-background px-1 font-mono text-[9.5px] lg:inline">⌘J</kbd>
+            </Link>
+          </Button>
+
           <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground" aria-label="Docs" asChild>
             <Link to="/docs"><BookOpen className="h-4 w-4" /></Link>
           </Button>
