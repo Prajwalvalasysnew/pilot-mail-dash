@@ -4,7 +4,6 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { TopHeader } from "@/components/layout/TopHeader";
 import { useApiKey } from "@/hooks/use-api-key";
-import { AgentLauncher } from "@/components/ai/AgentLauncher";
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
@@ -17,10 +16,9 @@ function AppLayout() {
   useEffect(() => {
     if (!hasKey && typeof window !== "undefined") {
       const path = window.location.pathname;
-      // Pages safe to browse without a connected API key (use demo data)
       const publicPaths = [
         "/onboarding", "/settings", "/docs", "/admin/api-keys",
-        "/dashboard", "/analytics", "/logs", "/templates",
+        "/dashboard", "/analytics", "/logs", "/templates", "/ai",
         "/messages", "/domains", "/usage", "/suppressions", "/webhooks",
         "/send-email", "/health",
       ];
@@ -40,7 +38,6 @@ function AppLayout() {
             <Outlet />
           </main>
         </SidebarInset>
-        <AgentLauncher />
       </div>
     </SidebarProvider>
   );

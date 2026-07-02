@@ -26,6 +26,7 @@ import { Route as AppDomainsRouteImport } from './routes/_app.domains'
 import { Route as AppDocsRouteImport } from './routes/_app.docs'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
+import { Route as AppAiRouteImport } from './routes/_app.ai'
 import { Route as AppMessagesIndexRouteImport } from './routes/_app.messages.index'
 import { Route as AppMessagesMessageIdRouteImport } from './routes/_app.messages.$messageId'
 import { Route as AppAdminApiKeysRouteImport } from './routes/_app.admin.api-keys'
@@ -114,6 +115,11 @@ const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAiRoute = AppAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMessagesIndexRoute = AppMessagesIndexRouteImport.update({
   id: '/messages/',
   path: '/messages/',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/ai': typeof AppAiRoute
   '/analytics': typeof AppAnalyticsRoute
   '/dashboard': typeof AppDashboardRoute
   '/docs': typeof AppDocsRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/ai': typeof AppAiRoute
   '/analytics': typeof AppAnalyticsRoute
   '/dashboard': typeof AppDashboardRoute
   '/docs': typeof AppDocsRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_app/ai': typeof AppAiRoute
   '/_app/analytics': typeof AppAnalyticsRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/docs': typeof AppDocsRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/health'
     | '/login'
     | '/signup'
+    | '/ai'
     | '/analytics'
     | '/dashboard'
     | '/docs'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/health'
     | '/login'
     | '/signup'
+    | '/ai'
     | '/analytics'
     | '/dashboard'
     | '/docs'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/health'
     | '/login'
     | '/signup'
+    | '/_app/ai'
     | '/_app/analytics'
     | '/_app/dashboard'
     | '/_app/docs'
@@ -391,6 +403,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/ai': {
+      id: '/_app/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AppAiRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/messages/': {
       id: '/_app/messages/'
       path: '/messages'
@@ -416,6 +435,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAiRoute: typeof AppAiRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppDocsRoute: typeof AppDocsRoute
@@ -434,6 +454,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAiRoute: AppAiRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppDocsRoute: AppDocsRoute,
@@ -463,13 +484,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

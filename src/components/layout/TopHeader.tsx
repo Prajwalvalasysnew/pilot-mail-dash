@@ -1,6 +1,7 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Moon, Sun, KeyRound, LogOut, User, X, Settings as SettingsIcon, Search, Bell, Command, BookOpen, HelpCircle, Plus, Mail, ChevronDown } from "lucide-react";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useState, useEffect, Fragment } from "react";
+import { Moon, Sun, KeyRound, LogOut, User, X, Settings as SettingsIcon, Search, Bell, Command, BookOpen, HelpCircle, Plus, Mail, ChevronDown, Sparkles, ChevronRight, Home, BarChart3, ScrollText, FileText, Globe, Webhook, ShieldOff, Activity, LayoutDashboard, Rocket } from "lucide-react";
+import { crumbsFor } from "@/lib/breadcrumbs";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +19,8 @@ export function TopHeader() {
   const { apiKey, setApiKey } = useApiKey();
   const { theme, toggle } = useTheme();
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const crumbs = crumbsFor(pathname);
   const masked = apiKey ? apiKey.slice(0, 6) + "•••" + apiKey.slice(-4) : null;
   const [cmdOpen, setCmdOpen] = useState(false);
 
@@ -27,12 +30,17 @@ export function TopHeader() {
         e.preventDefault();
         setCmdOpen(o => !o);
       }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "j") {
+        e.preventDefault();
+        navigate({ to: "/ai" });
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [navigate]);
 
   const go = (to: string) => { setCmdOpen(false); navigate({ to }); };
+  const askAi = (q: string) => { setCmdOpen(false); navigate({ to: "/ai", search: { q } }); };
 
   return (
     <>
@@ -84,6 +92,17 @@ export function TopHeader() {
 
           <Button asChild size="sm" className="hidden h-8 rounded-md bg-gradient-primary text-white shadow-sm hover:shadow-glow sm:inline-flex">
             <Link to="/send-email"><Plus className="mr-1 h-3.5 w-3.5" /> Send</Link>
+          </Button>
+
+          <Button
+            asChild variant="outline" size="sm"
+            className="hidden h-8 items-center gap-1.5 rounded-md border-primary/30 bg-primary/5 text-[12px] font-semibold text-foreground hover:bg-primary/10 md:inline-flex"
+          >
+            <Link to="/ai">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              Ask Valasys AI
+              <kbd className="ml-1 hidden rounded border border-border bg-background px-1 font-mono text-[9.5px] lg:inline">⌘J</kbd>
+            </Link>
           </Button>
 
           <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground" aria-label="Docs" asChild>
@@ -167,32 +186,64 @@ export function TopHeader() {
         </div>
       </header>
 
+      {/* Breadcrumbs / page context bar */}
+      {crumbs.length > 1 && (
+        <div className="sticky top-16 z-30 flex h-9 items-center gap-1.5 border-b border-border bg-background/60 px-4 backdrop-blur md:px-6">
+          <Home className="h-3 w-3 text-muted-foreground" />
+          {crumbs.map((c, i) => (
+            <Fragment key={i}>
+              {i > 0 && <ChevronRight className="h-3 w-3 text-muted-foreground/60" />}
+              {c.to ? (
+                <Link to={c.to} className="text-[11.5px] font-medium text-muted-foreground transition hover:text-foreground">
+                  {c.label}
+                </Link>
+              ) : (
+                <span className={`text-[11.5px] ${i === crumbs.length - 1 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                  {c.label}
+                </span>
+              )}
+            </Fragment>
+          ))}
+        </div>
+      )}
+
       {/* Command palette */}
       <CommandDialog open={cmdOpen} onOpenChange={setCmdOpen}>
         <CommandInput placeholder="Search or jump to anything…" />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Pages">
-            <CommandItem onSelect={() => go("/dashboard")}>Dashboard</CommandItem>
-            <CommandItem onSelect={() => go("/analytics")}>Analytics</CommandItem>
-            <CommandItem onSelect={() => go("/messages")}>Messages</CommandItem>
-            <CommandItem onSelect={() => go("/logs")}>Event Logs</CommandItem>
-            <CommandItem onSelect={() => go("/templates")}>Templates</CommandItem>
-            <CommandItem onSelect={() => go("/domains")}>Domains</CommandItem>
-            <CommandItem onSelect={() => go("/webhooks")}>Webhooks</CommandItem>
-            <CommandItem onSelect={() => go("/suppressions")}>Suppressions</CommandItem>
+          <CommandGroup heading="Ask Valasys AI">
+            <CommandItem onSelect={() => go("/ai")}><Sparkles className="mr-2 h-3.5 w-3.5 text-primary" /> Open AI workspace <kbd className="ml-auto rounded border border-border bg-muted px-1 font-mono text-[10px]">⌘J</kbd></CommandItem>
+            <CommandItem onSelect={() => askAi("What was the open rate of my last campaign?")}><BarChart3 className="mr-2 h-3.5 w-3.5" /> Ask about campaign performance</CommandItem>
+            <CommandItem onSelect={() => askAi("Draft a follow-up email for a warm lead")}><FileText className="mr-2 h-3.5 w-3.5" /> Draft a follow-up email</CommandItem>
+            <CommandItem onSelect={() => askAi("Why did my bounce rate spike this week?")}><Activity className="mr-2 h-3.5 w-3.5" /> Diagnose deliverability</CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Actions">
+          <CommandGroup heading="Navigate">
+            <CommandItem onSelect={() => go("/dashboard")}><LayoutDashboard className="mr-2 h-3.5 w-3.5" /> Dashboard</CommandItem>
+            <CommandItem onSelect={() => go("/analytics")}><BarChart3 className="mr-2 h-3.5 w-3.5" /> Analytics</CommandItem>
+            <CommandItem onSelect={() => go("/messages")}><Mail className="mr-2 h-3.5 w-3.5" /> Messages</CommandItem>
+            <CommandItem onSelect={() => go("/logs")}><ScrollText className="mr-2 h-3.5 w-3.5" /> Event Logs</CommandItem>
+            <CommandItem onSelect={() => go("/templates")}><FileText className="mr-2 h-3.5 w-3.5" /> Templates</CommandItem>
+            <CommandItem onSelect={() => go("/domains")}><Globe className="mr-2 h-3.5 w-3.5" /> Domains</CommandItem>
+            <CommandItem onSelect={() => go("/webhooks")}><Webhook className="mr-2 h-3.5 w-3.5" /> Webhooks</CommandItem>
+            <CommandItem onSelect={() => go("/suppressions")}><ShieldOff className="mr-2 h-3.5 w-3.5" /> Suppressions</CommandItem>
+            <CommandItem onSelect={() => go("/usage")}><BarChart3 className="mr-2 h-3.5 w-3.5" /> Usage & Quota</CommandItem>
+            <CommandItem onSelect={() => go("/onboarding")}><Rocket className="mr-2 h-3.5 w-3.5" /> Onboarding</CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Create">
             <CommandItem onSelect={() => go("/send-email")}><Plus className="mr-2 h-3.5 w-3.5" /> Send new email</CommandItem>
-            <CommandItem onSelect={() => go("/domains")}>Add a sending domain</CommandItem>
-            <CommandItem onSelect={() => go("/admin/api-keys")}>Create API key</CommandItem>
-            <CommandItem onSelect={() => go("/webhooks")}>Add a webhook</CommandItem>
+            <CommandItem onSelect={() => go("/domains")}><Globe className="mr-2 h-3.5 w-3.5" /> Add a sending domain</CommandItem>
+            <CommandItem onSelect={() => go("/admin/api-keys")}><KeyRound className="mr-2 h-3.5 w-3.5" /> Create API key</CommandItem>
+            <CommandItem onSelect={() => go("/webhooks")}><Webhook className="mr-2 h-3.5 w-3.5" /> Add a webhook</CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem onSelect={toggle}>{theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}</CommandItem>
-            <CommandItem onSelect={() => go("/settings")}>Open settings</CommandItem>
+          <CommandGroup heading="Preferences">
+            <CommandItem onSelect={toggle}>{theme === "dark" ? <><Sun className="mr-2 h-3.5 w-3.5" /> Switch to light mode</> : <><Moon className="mr-2 h-3.5 w-3.5" /> Switch to dark mode</>}</CommandItem>
+            <CommandItem onSelect={() => go("/settings")}><SettingsIcon className="mr-2 h-3.5 w-3.5" /> Open settings</CommandItem>
+            <CommandItem onSelect={() => go("/docs")}><BookOpen className="mr-2 h-3.5 w-3.5" /> View docs</CommandItem>
+            <CommandItem onSelect={() => go("/health")}><Activity className="mr-2 h-3.5 w-3.5" /> System health</CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>

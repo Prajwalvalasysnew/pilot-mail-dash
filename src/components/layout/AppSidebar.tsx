@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Send, Globe, Mail, BarChart3, ShieldOff,
   Webhook, KeyRound, Settings, BookOpen, Rocket, Activity, ChevronRight,
-  FileText, ScrollText, ChevronsUpDown, Check, Zap,
+  FileText, ScrollText, ChevronsUpDown, Check, Zap, Sparkles,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -16,6 +16,7 @@ import {
 const nav = [
   { group: "Overview", items: [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+    { title: "Valasys AI", url: "/ai", icon: Sparkles, badge: "BETA" },
     { title: "Analytics", url: "/analytics", icon: BarChart3, badge: "NEW" },
     { title: "Onboarding", url: "/onboarding", icon: Rocket },
   ]},
@@ -122,6 +123,8 @@ export function AppSidebar() {
                             <span className={`ml-auto rounded-full px-1.5 py-px text-[9px] font-bold tracking-wider group-data-[collapsible=icon]:hidden ${
                               item.badge === "LIVE"
                                 ? "bg-success/20 text-success ring-1 ring-success/30"
+                                : item.badge === "BETA"
+                                ? "bg-gradient-primary text-white ring-1 ring-primary/40 shadow-glow"
                                 : "bg-primary/25 text-primary-foreground ring-1 ring-primary/40"
                             }`}>
                               {item.badge}
