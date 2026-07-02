@@ -1,6 +1,7 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Moon, Sun, KeyRound, LogOut, User, X, Settings as SettingsIcon, Search, Bell, Command, BookOpen, HelpCircle, Plus, Mail, ChevronDown } from "lucide-react";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useState, useEffect, Fragment } from "react";
+import { Moon, Sun, KeyRound, LogOut, User, X, Settings as SettingsIcon, Search, Bell, Command, BookOpen, HelpCircle, Plus, Mail, ChevronDown, Sparkles, ChevronRight, Home, BarChart3, ScrollText, FileText, Globe, Webhook, ShieldOff, Activity, LayoutDashboard, Rocket } from "lucide-react";
+import { crumbsFor } from "@/lib/breadcrumbs";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
