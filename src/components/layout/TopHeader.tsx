@@ -19,6 +19,8 @@ export function TopHeader() {
   const { apiKey, setApiKey } = useApiKey();
   const { theme, toggle } = useTheme();
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const crumbs = crumbsFor(pathname);
   const masked = apiKey ? apiKey.slice(0, 6) + "•••" + apiKey.slice(-4) : null;
   const [cmdOpen, setCmdOpen] = useState(false);
 
