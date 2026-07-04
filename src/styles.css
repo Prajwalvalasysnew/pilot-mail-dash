@@ -219,10 +219,13 @@
     font-family: var(--font-display);
   }
 
-  :where(button, [role="button"], a, input, select, textarea, [tabindex]):focus-visible {
+  :where(a, [tabindex]):not(button, [role="button"], input, select, textarea):focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-card), 0 0 0 4px var(--color-ring);
+    box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px color-mix(in oklab, var(--color-ring) 65%, transparent);
+    border-radius: 4px;
   }
+
+  ::selection { background: color-mix(in oklab, var(--color-primary) 22%, transparent); color: var(--color-foreground); }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
