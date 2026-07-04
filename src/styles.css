@@ -266,13 +266,11 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 @utility animate-shimmer {
-  animation: shimmer 2s linear infinite;
-  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.06), transparent);
-  background-size: 1000px 100%;
+  animation: shimmer 1.6s linear infinite;
 }
 
 @keyframes pulse-dot {
