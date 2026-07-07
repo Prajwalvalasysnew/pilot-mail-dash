@@ -58,18 +58,15 @@ export function AppSidebar() {
         {/* Workspace switcher */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="group/ws flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left transition hover:bg-sidebar-accent">
-              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-primary text-white shadow-glow">
-                <Zap className="h-[18px] w-[18px]" strokeWidth={2.5} />
+            <button className="group/ws flex w-full items-center gap-2.5 rounded-md px-2 py-2 text-left transition hover:bg-sidebar-accent">
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-sidebar-accent text-sidebar-foreground ring-1 ring-white/10">
+                <span className="font-display text-[17px] leading-none">V</span>
               </div>
               <div className="flex min-w-0 flex-1 flex-col leading-tight group-data-[collapsible=icon]:hidden">
-                <span className="truncate text-[13px] font-bold tracking-tight text-sidebar-foreground">{current.name}</span>
-                <span className="flex items-center gap-1 text-[10px] font-medium text-sidebar-foreground/55">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-1.5 py-px font-semibold uppercase tracking-wider text-success">
-                    <span className="h-1 w-1 rounded-full bg-success" />
-                    {current.env}
-                  </span>
-                  · {current.plan}
+                <span className="truncate font-display text-[16px] tracking-tight text-sidebar-foreground">{current.name}</span>
+                <span className="mt-0.5 flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.12em] text-sidebar-foreground/50">
+                  <span className="h-1 w-1 rounded-full bg-signal" />
+                  {current.env} · {current.plan}
                 </span>
               </div>
               <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/40 group-hover/ws:text-sidebar-foreground group-data-[collapsible=icon]:hidden" />
