@@ -133,26 +133,23 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border bg-sidebar">
-        <div className="m-2 overflow-hidden rounded-lg border border-primary/30 bg-gradient-to-br from-primary/15 to-transparent p-3 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-primary text-white shadow-glow">
-              <Rocket className="h-3.5 w-3.5" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[12px] font-semibold leading-tight text-white">Upgrade to Scale</p>
-              <p className="text-[10.5px] text-sidebar-foreground/60">Unlock 1M sends / mo</p>
-            </div>
+        <div className="m-2 rounded-sm border border-sidebar-border p-3 group-data-[collapsible=icon]:hidden">
+          <div className="flex items-center justify-between">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-sidebar-foreground/50">Monthly sends</p>
+            <p className="font-mono text-[10.5px] text-sidebar-foreground/80">26%</p>
           </div>
-          <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[26%] rounded-full bg-gradient-primary" />
+          <div className="mt-2 h-[3px] overflow-hidden bg-white/8">
+            <div className="h-full w-[26%] bg-signal" />
           </div>
-          <p className="mt-1.5 text-[10px] text-sidebar-foreground/55">384k / 1.5M monthly sends</p>
-          <button className="mt-2 w-full rounded-md bg-white/95 px-2 py-1.5 text-[11.5px] font-semibold text-foreground transition hover:bg-white">
-            View plans →
-          </button>
+          <div className="mt-2 flex items-baseline justify-between">
+            <p className="font-mono text-[11px] text-sidebar-foreground/75">384,120<span className="text-sidebar-foreground/40"> / 1,500,000</span></p>
+            <button className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-signal hover:underline">
+              Upgrade
+            </button>
+          </div>
         </div>
-        <div className="px-3 pb-2 text-[10px] text-sidebar-foreground/40 group-data-[collapsible=icon]:hidden">
-          v1.0 · © Valasys Media
+        <div className="px-3 pb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-sidebar-foreground/35 group-data-[collapsible=icon]:hidden">
+          v1.0 — Valasys Media
         </div>
       </SidebarFooter>
     </Sidebar>
