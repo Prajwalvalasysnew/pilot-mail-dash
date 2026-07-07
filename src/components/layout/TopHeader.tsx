@@ -149,14 +149,14 @@ export function TopHeader() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="ml-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-primary text-[12px] font-bold text-white shadow-sm transition hover:shadow-glow" aria-label="Account">
-                VM
+              <button className="ml-1 flex h-9 w-9 items-center justify-center rounded-sm border border-border bg-card font-display text-[16px] text-foreground transition hover:bg-muted" aria-label="Account">
+                V
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-primary text-[12px] font-bold text-white">VM</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-sm border border-border bg-muted font-display text-[15px] text-foreground">V</div>
                   <div className="flex flex-col">
                     <span className="text-[13px] font-semibold">Valasys Media</span>
                     <span className="text-[11px] font-normal text-muted-foreground">admin@valasys.io</span>
