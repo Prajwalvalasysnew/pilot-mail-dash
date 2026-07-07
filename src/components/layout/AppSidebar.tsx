@@ -108,26 +108,19 @@ export function AppSidebar() {
                         asChild
                         isActive={active}
                         tooltip={item.title}
-                        className="group/item relative h-9 rounded-md font-medium text-sidebar-foreground/85 transition-all data-[active=true]:bg-primary/15 data-[active=true]:text-white data-[active=true]:shadow-[inset_0_0_0_1px_oklch(0.58_0.22_22/0.35)] hover:bg-sidebar-accent hover:text-white"
+                        className="group/item relative h-8 rounded-sm font-normal text-sidebar-foreground/80 transition-colors data-[active=true]:bg-sidebar-accent data-[active=true]:text-white hover:bg-sidebar-accent hover:text-white"
                       >
                         <Link to={item.url}>
                           {active && (
-                            <span className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-primary shadow-[0_0_8px_oklch(0.58_0.22_22/0.6)]" />
+                            <span className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 bg-signal" />
                           )}
-                          <item.icon className="h-[15px] w-[15px]" strokeWidth={active ? 2.4 : 2} />
+                          <item.icon className="h-[15px] w-[15px]" strokeWidth={active ? 2 : 1.6} />
                           <span className="text-[13px]">{item.title}</span>
                           {"badge" in item && item.badge && (
-                            <span className={`ml-auto rounded-full px-1.5 py-px text-[9px] font-bold tracking-wider group-data-[collapsible=icon]:hidden ${
-                              item.badge === "LIVE"
-                                ? "bg-success/20 text-success ring-1 ring-success/30"
-                                : item.badge === "BETA"
-                                ? "bg-gradient-primary text-white ring-1 ring-primary/40 shadow-glow"
-                                : "bg-primary/25 text-primary-foreground ring-1 ring-primary/40"
-                            }`}>
+                            <span className="ml-auto rounded-sm border border-sidebar-border px-1.5 py-px font-mono text-[9.5px] font-medium uppercase tracking-[0.14em] text-sidebar-foreground/55 group-data-[collapsible=icon]:hidden">
                               {item.badge}
                             </span>
                           )}
-                          {active && !("badge" in item && item.badge) && <ChevronRight className="ml-auto h-3 w-3 opacity-60 group-data-[collapsible=icon]:hidden" />}
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
