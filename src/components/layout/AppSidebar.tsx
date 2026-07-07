@@ -16,18 +16,18 @@ import {
 const nav = [
   { group: "Overview", items: [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-    { title: "Valasys AI", url: "/ai", icon: Sparkles, badge: "BETA" },
-    { title: "Analytics", url: "/analytics", icon: BarChart3, badge: "NEW" },
+    { title: "Valasys AI", url: "/ai", icon: Sparkles, badge: "Beta" },
+    { title: "Analytics", url: "/analytics", icon: BarChart3 },
     { title: "Onboarding", url: "/onboarding", icon: Rocket },
   ]},
   { group: "Sending", items: [
     { title: "Send Email", url: "/send-email", icon: Send },
     { title: "Messages", url: "/messages", icon: Mail },
-    { title: "Templates", url: "/templates", icon: FileText, badge: "NEW" },
+    { title: "Templates", url: "/templates", icon: FileText },
     { title: "Domains", url: "/domains", icon: Globe },
   ]},
   { group: "Monitor", items: [
-    { title: "Event Logs", url: "/logs", icon: ScrollText, badge: "LIVE" },
+    { title: "Event Logs", url: "/logs", icon: ScrollText },
     { title: "Usage & Quota", url: "/usage", icon: BarChart3 },
     { title: "Suppressions", url: "/suppressions", icon: ShieldOff },
     { title: "Webhooks", url: "/webhooks", icon: Webhook },
@@ -58,18 +58,15 @@ export function AppSidebar() {
         {/* Workspace switcher */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="group/ws flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left transition hover:bg-sidebar-accent">
-              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-primary text-white shadow-glow">
-                <Zap className="h-[18px] w-[18px]" strokeWidth={2.5} />
+            <button className="group/ws flex w-full items-center gap-2.5 rounded-md px-2 py-2 text-left transition hover:bg-sidebar-accent">
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-sidebar-accent text-sidebar-foreground ring-1 ring-white/10">
+                <span className="font-display text-[17px] leading-none">V</span>
               </div>
               <div className="flex min-w-0 flex-1 flex-col leading-tight group-data-[collapsible=icon]:hidden">
-                <span className="truncate text-[13px] font-bold tracking-tight text-sidebar-foreground">{current.name}</span>
-                <span className="flex items-center gap-1 text-[10px] font-medium text-sidebar-foreground/55">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-1.5 py-px font-semibold uppercase tracking-wider text-success">
-                    <span className="h-1 w-1 rounded-full bg-success" />
-                    {current.env}
-                  </span>
-                  · {current.plan}
+                <span className="truncate font-display text-[16px] tracking-tight text-sidebar-foreground">{current.name}</span>
+                <span className="mt-0.5 flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.12em] text-sidebar-foreground/50">
+                  <span className="h-1 w-1 rounded-full bg-signal" />
+                  {current.env} · {current.plan}
                 </span>
               </div>
               <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/40 group-hover/ws:text-sidebar-foreground group-data-[collapsible=icon]:hidden" />
@@ -111,26 +108,19 @@ export function AppSidebar() {
                         asChild
                         isActive={active}
                         tooltip={item.title}
-                        className="group/item relative h-9 rounded-md font-medium text-sidebar-foreground/85 transition-all data-[active=true]:bg-primary/15 data-[active=true]:text-white data-[active=true]:shadow-[inset_0_0_0_1px_oklch(0.58_0.22_22/0.35)] hover:bg-sidebar-accent hover:text-white"
+                        className="group/item relative h-8 rounded-sm font-normal text-sidebar-foreground/80 transition-colors data-[active=true]:bg-sidebar-accent data-[active=true]:text-white hover:bg-sidebar-accent hover:text-white"
                       >
                         <Link to={item.url}>
                           {active && (
-                            <span className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-primary shadow-[0_0_8px_oklch(0.58_0.22_22/0.6)]" />
+                            <span className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 bg-signal" />
                           )}
-                          <item.icon className="h-[15px] w-[15px]" strokeWidth={active ? 2.4 : 2} />
+                          <item.icon className="h-[15px] w-[15px]" strokeWidth={active ? 2 : 1.6} />
                           <span className="text-[13px]">{item.title}</span>
                           {"badge" in item && item.badge && (
-                            <span className={`ml-auto rounded-full px-1.5 py-px text-[9px] font-bold tracking-wider group-data-[collapsible=icon]:hidden ${
-                              item.badge === "LIVE"
-                                ? "bg-success/20 text-success ring-1 ring-success/30"
-                                : item.badge === "BETA"
-                                ? "bg-gradient-primary text-white ring-1 ring-primary/40 shadow-glow"
-                                : "bg-primary/25 text-primary-foreground ring-1 ring-primary/40"
-                            }`}>
+                            <span className="ml-auto rounded-sm border border-sidebar-border px-1.5 py-px font-mono text-[9.5px] font-medium uppercase tracking-[0.14em] text-sidebar-foreground/55 group-data-[collapsible=icon]:hidden">
                               {item.badge}
                             </span>
                           )}
-                          {active && !("badge" in item && item.badge) && <ChevronRight className="ml-auto h-3 w-3 opacity-60 group-data-[collapsible=icon]:hidden" />}
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -143,26 +133,23 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border bg-sidebar">
-        <div className="m-2 overflow-hidden rounded-lg border border-primary/30 bg-gradient-to-br from-primary/15 to-transparent p-3 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-primary text-white shadow-glow">
-              <Rocket className="h-3.5 w-3.5" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[12px] font-semibold leading-tight text-white">Upgrade to Scale</p>
-              <p className="text-[10.5px] text-sidebar-foreground/60">Unlock 1M sends / mo</p>
-            </div>
+        <div className="m-2 rounded-sm border border-sidebar-border p-3 group-data-[collapsible=icon]:hidden">
+          <div className="flex items-center justify-between">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-sidebar-foreground/50">Monthly sends</p>
+            <p className="font-mono text-[10.5px] text-sidebar-foreground/80">26%</p>
           </div>
-          <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[26%] rounded-full bg-gradient-primary" />
+          <div className="mt-2 h-[3px] overflow-hidden bg-white/8">
+            <div className="h-full w-[26%] bg-signal" />
           </div>
-          <p className="mt-1.5 text-[10px] text-sidebar-foreground/55">384k / 1.5M monthly sends</p>
-          <button className="mt-2 w-full rounded-md bg-white/95 px-2 py-1.5 text-[11.5px] font-semibold text-foreground transition hover:bg-white">
-            View plans →
-          </button>
+          <div className="mt-2 flex items-baseline justify-between">
+            <p className="font-mono text-[11px] text-sidebar-foreground/75">384,120<span className="text-sidebar-foreground/40"> / 1,500,000</span></p>
+            <button className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-signal hover:underline">
+              Upgrade
+            </button>
+          </div>
         </div>
-        <div className="px-3 pb-2 text-[10px] text-sidebar-foreground/40 group-data-[collapsible=icon]:hidden">
-          v1.0 · © Valasys Media
+        <div className="px-3 pb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-sidebar-foreground/35 group-data-[collapsible=icon]:hidden">
+          v1.0 — Valasys Media
         </div>
       </SidebarFooter>
     </Sidebar>

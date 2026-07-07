@@ -6,28 +6,28 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md font-medium cursor-pointer select-none transition-[background,box-shadow,color,transform] duration-[var(--dur-fast)] ease-[var(--ease-standard)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-55 disabled:cursor-not-allowed active:translate-y-px [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "relative inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-sm font-medium cursor-pointer select-none transition-[background,box-shadow,color,border-color] duration-[var(--dur-fast)] ease-[var(--ease-standard)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-55 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-sm hover:bg-primary/92 hover:shadow-md",
+          "bg-primary text-primary-foreground hover:bg-primary/88",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-border bg-card text-foreground shadow-xs hover:bg-muted hover:border-border/80",
+          "border border-border bg-card text-foreground hover:bg-muted",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/70",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/70",
         ghost:
           "text-foreground hover:bg-muted",
         link:
-          "text-primary underline-offset-4 hover:underline",
+          "text-foreground underline underline-offset-[3px] decoration-border hover:decoration-foreground",
         subtle:
-          "bg-primary/10 text-primary hover:bg-primary/15 shadow-none",
+          "bg-muted text-foreground hover:bg-muted/70",
       },
       size: {
         default: "h-9 px-3.5 text-[13px] [&_svg]:size-4",
-        xs: "h-7 rounded px-2 text-[11.5px] [&_svg]:size-3.5",
+        xs: "h-7 rounded-sm px-2 text-[11.5px] [&_svg]:size-3.5",
         sm: "h-8 px-3 text-[12.5px] [&_svg]:size-3.5",
         lg: "h-10 px-5 text-[14px] [&_svg]:size-4",
         icon: "h-9 w-9 [&_svg]:size-4",

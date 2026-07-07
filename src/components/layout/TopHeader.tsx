@@ -77,47 +77,41 @@ export function TopHeader() {
 
         <div className="ml-auto flex items-center gap-1.5">
           {apiKey ? (
-            <Badge variant="outline" className="hidden h-8 items-center gap-1.5 rounded-full border-success/30 bg-success/5 px-2.5 font-mono text-[11.5px] font-medium sm:inline-flex">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
-              </span>
+            <span className="hidden h-8 items-center gap-1.5 border border-border bg-card px-2.5 font-mono text-[11px] text-muted-foreground sm:inline-flex">
+              <span className="h-1.5 w-1.5 rounded-full bg-success" />
               <span className="text-foreground">{masked}</span>
-            </Badge>
+            </span>
           ) : (
-            <Badge variant="outline" className="hidden h-8 items-center gap-1.5 rounded-full border-destructive/30 bg-destructive/5 px-2.5 text-[11.5px] font-medium text-destructive sm:inline-flex">
+            <span className="hidden h-8 items-center gap-1.5 border border-destructive/30 bg-transparent px-2.5 font-mono text-[11px] text-destructive sm:inline-flex">
               <X className="h-3 w-3" /> Not connected
-            </Badge>
+            </span>
           )}
 
-          <Button asChild size="sm" className="hidden h-8 rounded-md bg-gradient-primary text-white shadow-sm hover:shadow-glow sm:inline-flex">
-            <Link to="/send-email"><Plus className="mr-1 h-3.5 w-3.5" /> Send</Link>
+          <Button asChild size="sm" variant="default" className="hidden h-8 rounded-sm sm:inline-flex">
+            <Link to="/send-email"><Plus className="mr-1 h-3.5 w-3.5" /> Compose</Link>
           </Button>
 
           <Button
             asChild variant="outline" size="sm"
-            className="hidden h-8 items-center gap-1.5 rounded-md border-primary/30 bg-primary/5 text-[12px] font-semibold text-foreground hover:bg-primary/10 md:inline-flex"
+            className="hidden h-8 items-center gap-1.5 rounded-sm border-border bg-transparent font-mono text-[11px] uppercase tracking-[0.12em] text-foreground hover:bg-muted md:inline-flex"
           >
             <Link to="/ai">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Ask Valasys AI
-              <kbd className="ml-1 hidden rounded border border-border bg-background px-1 font-mono text-[9.5px] lg:inline">⌘J</kbd>
+              <Sparkles className="h-3.5 w-3.5 text-signal" />
+              Ask AI
+              <kbd className="ml-1 hidden rounded-sm border border-border bg-background px-1 font-mono text-[9.5px] normal-case tracking-normal lg:inline">⌘J</kbd>
             </Link>
           </Button>
 
-          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground" aria-label="Docs" asChild>
+          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-sm text-muted-foreground hover:text-foreground" aria-label="Docs" asChild>
             <Link to="/docs"><BookOpen className="h-4 w-4" /></Link>
           </Button>
 
           {/* Notifications */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="relative h-9 w-9 rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground" aria-label="Notifications">
+              <button className="relative h-9 w-9 rounded-sm text-muted-foreground transition hover:bg-muted hover:text-foreground" aria-label="Notifications">
                 <Bell className="mx-auto h-4 w-4" />
-                <span className="absolute right-1.5 top-1.5 flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-                </span>
+                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-signal" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-80">
@@ -155,14 +149,14 @@ export function TopHeader() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="ml-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-primary text-[12px] font-bold text-white shadow-sm transition hover:shadow-glow" aria-label="Account">
-                VM
+              <button className="ml-1 flex h-9 w-9 items-center justify-center rounded-sm border border-border bg-card font-display text-[16px] text-foreground transition hover:bg-muted" aria-label="Account">
+                V
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-primary text-[12px] font-bold text-white">VM</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-sm border border-border bg-muted font-display text-[15px] text-foreground">V</div>
                   <div className="flex flex-col">
                     <span className="text-[13px] font-semibold">Valasys Media</span>
                     <span className="text-[11px] font-normal text-muted-foreground">admin@valasys.io</span>
