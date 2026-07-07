@@ -16,18 +16,18 @@ import {
 const nav = [
   { group: "Overview", items: [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-    { title: "Valasys AI", url: "/ai", icon: Sparkles, badge: "BETA" },
-    { title: "Analytics", url: "/analytics", icon: BarChart3, badge: "NEW" },
+    { title: "Valasys AI", url: "/ai", icon: Sparkles, badge: "Beta" },
+    { title: "Analytics", url: "/analytics", icon: BarChart3 },
     { title: "Onboarding", url: "/onboarding", icon: Rocket },
   ]},
   { group: "Sending", items: [
     { title: "Send Email", url: "/send-email", icon: Send },
     { title: "Messages", url: "/messages", icon: Mail },
-    { title: "Templates", url: "/templates", icon: FileText, badge: "NEW" },
+    { title: "Templates", url: "/templates", icon: FileText },
     { title: "Domains", url: "/domains", icon: Globe },
   ]},
   { group: "Monitor", items: [
-    { title: "Event Logs", url: "/logs", icon: ScrollText, badge: "LIVE" },
+    { title: "Event Logs", url: "/logs", icon: ScrollText },
     { title: "Usage & Quota", url: "/usage", icon: BarChart3 },
     { title: "Suppressions", url: "/suppressions", icon: ShieldOff },
     { title: "Webhooks", url: "/webhooks", icon: Webhook },
